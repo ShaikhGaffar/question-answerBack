@@ -1,0 +1,20 @@
+https://pol.tasb.org/PolicyOnline/PolicyDetails?key=1101&code=CCGB#legalTabContent
+Erik Leist6:49 PM
+https://drive.google.com/file/d/1BG3Av3qRfanFj4HWc00ugL3wVUOCxgj_/view?usp=sharing
+-- ====================================
+-- pc-web-production (Ubuntu 22.04 LTS)
+-- ====================================
+
+Public IP: 138.197.58.39
+
+Username: sdlc
+Password: qhm9B@H454@k
+
+-- ====================================
+-- pc-mongodb-production (MongoDB 6)
+-- ====================================
+
+Public Host = mongodb+srv://pc-mongodb-production-a718912b.mongo.ondigitalocean.com
+VPC Host = mongodb+srv://private-pc-mongodb-production-9bb55a34.mongo.ondigitalocean.com
+
+Username = policy_conn

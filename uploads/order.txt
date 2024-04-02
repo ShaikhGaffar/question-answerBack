@@ -1,0 +1,112 @@
+import React, { useEffect, useState } from 'react';
+import ProfileMenu from '../My-Profile/ProfileMenu';
+import { apiGET } from '../../utilities/apiHelpers';
+import moment from 'moment/moment';
+import { ellipseAddress } from '../../components/ellips/ellipseAddress';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import Login from '../../components/signup/login';
+import Button from 'react-bootstrap/Button';
+import Collapse from 'react-bootstrap/Collapse';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+
+const OrdersPage = ({ address }) => {
+  const [myOrders, setMyorders] = useState([]);
+  const [open, setOpen] = useState(false);
+  const { userData } = useSelector((s) => s.user);
+  const navigate = useNavigate();
+  const getMyOrders = async () => {
+    const resp = await apiGET("/v1/order/get-myorder");
+    if (resp.status === 200) {
+      // console.log(resp);
+      console.log("get data----------", resp?.data?.data);
+      setMyorders(resp?.data?.data);
+    }
+    useEffect(() => {
+        if (!userData) {
+            toast.error("Please login first")
+            navigate("/")
+        }
+        getMyOrders()
+    }, [])
+    return (
+        <>
+            <div className=' container ' >
+                <div className=''>
+                    <div className='px-0 row d-flex justify-content-between' >
+                        <div className='col-12 mt-md-3 col-md-3 px-0'>
+                            <ProfileMenu />
+                        </div>
+                        <div className='col-12 mt-5 mt-md-3 col-md-8 px-0 mb-4'>
+                            <div className=''>
+                                <div className='px-5 px-md-3 px-lg-5 mt-4 '>
+                                    <div className='row d-flex justify-content-between'>
+                                        <div className='col-12 '>
+                                            <h1 style={{ fontSize: "32px" }} className='anton'>My Orders</h1>
+                                            <p className='mt-3'>View your order history or check the status of a recent order.</p>
+                                        </div>
+                                    </div>
+                                    {/* <div className='border border-1 border-dark border-top-0 mt-4'></div> */}
+                                    <div className='  mt-3'>
+                                        <div className='  row ' style={{overflow:"auto"}}>
+                                            <div className='flex-wrap w-100' >
+                                                <div className=''  >
+                                                    <ul className="nav row " style={{ minWidth: "460px", gap: "10px" }}>
+                                                        <li className="nav-item col-3 "  >
+                                                            <div className="" >Date</div>
+                                                        </li>
+
+                                                        <li className="nav-item col-2 "  >
+                                                            <div className="" >Order</div>
+                                                        </li>
+
+                                                        <li className="nav-item col-3 "  >
+                                                            <div className="" >Status</div>
+                                                        </li>
+                                                        <li className="nav-item col-2 "  >
+                                                            <div className="" > Total</div>
+                                                        </li>
+
+                                                        <li className="nav-item col-1" >
+                                                            <div className="" ></div>
+                                                        </li>
+                                                    <div className='border border-1 border-dark border-top-0 mt-4 ' ></div>
+                                                    </ul>
+                                                </div>
+
+                                                {
+                                                    myOrders && myOrders.length ? myOrders.map((item, index) => {
+                                                        return <OrderDetails index={index} item={item} />
+                                                    }) : <div className='text-center align-content-center pb-5 pt-5' >
+                                                        <div className='fs-5'> You haven't placed any orders yet.</div>
+                                                        <div className='mt-3'>
+                                                            <Link className='text-black' to="/"> Start Browsing</Link> </div>
+                                                    </div>
+                                                }
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default OrdersPage;

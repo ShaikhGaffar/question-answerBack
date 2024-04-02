@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,send_from_directory
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -7,7 +7,7 @@ from docquery import pipeline, document
 import threading
 import time
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='./build/static')
 CORS(app, resources={r"/*": {"origins": "*"}})
 # Initialize the document-question-answering pipeline with donut model
 doc_qa_pipeline = pipeline('document-question-answering')
@@ -41,6 +41,22 @@ def delete_file_after_delay(file_path, delay):
         print(f"Deleted file: {file_path}")
     except Exception as e:
         print(f"Error deleting file: {e}")
+@app.route('/')
+def index():
+    return send_from_directory('./build', 'index.html')
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('./build/static', path)
+@app.route('/favicon.ico')
+def serve_favicon():
+    return send_from_directory('./build', 'favicon.ico')
+
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_from_directory('./build', 'manifest.json')
+@app.route('/logo192.png')
+def logo_192():
+    return send_from_directory('./build', 'logo192.png')
 
 @app.route('/query', methods=['POST'])
 def query_document():
