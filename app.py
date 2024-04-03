@@ -58,6 +58,11 @@ def serve_manifest():
 def logo_192():
     return send_from_directory('./build', 'logo192.png')
 
+@app.route('/queryTest')
+def test():
+        print('asdfasdf sdf sdf adsff ')
+        return jsonify({'question': 'question', 'answer': 'answer_from_doc'})
+
 @app.route('/query', methods=['POST'])
 def query_document():
     try:
