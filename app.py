@@ -93,4 +93,4 @@ if __name__ == "__main__":
     # Ensure the upload folder exists
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     # Run the Flask app
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=7000)
