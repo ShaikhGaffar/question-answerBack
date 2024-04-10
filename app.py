@@ -63,7 +63,7 @@ def test():
         print('asdfasdf sdf sdf adsff ')
         return jsonify({'question': 'question', 'answer': 'answer_from_doc'})
 
-@app.route('/query', methods=['POST'])
+@app.route('/api/query', methods=['POST'])
 def query_document():
     try:
         question = request.form['question']
